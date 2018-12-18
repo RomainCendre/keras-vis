@@ -188,7 +188,10 @@ def visualize_cam_with_losses(input_tensor, losses, seed_input, penultimate_laye
     heatmap = np.maximum(heatmap, 0)
 
     # The penultimate feature map size is definitely smaller than input image.
-    input_dims = np.squeeze(seed_input,axis=0).shape[0:2]# utils.get_img_shape(input_tensor)[2:]
+    if seed_input.ndim == 4:
+        input_dims = seed_input.shape[1:3]# utils.get_img_shape(input_tensor)[2:]
+    else:
+        input_dims = seed_input.shape[0:2]
 
     # Figure out the zoom factor.
     zoom_factor = [i / (j * 1.0) for i, j in iter(zip(input_dims, output_dims))]
